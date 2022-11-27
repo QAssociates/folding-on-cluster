@@ -3,6 +3,7 @@ FROM nvcr.io/nvidia/cuda:11.8.0-runtime-ubuntu22.04
 
 ENV DEBIAN_FRONTEND noninteractive
 
+
 RUN apt update && apt upgrade -y
 RUN apt install wget -y
 
@@ -14,7 +15,7 @@ ADD config.xml /usr/share/doc/fahclient/sample-config.xml
 # See here for latest - https://foldingathome.org/alternative-downloads/
 RUN wget https://download.foldingathome.org/releases/beta/fah-client/debian-stable-64bit/release/latest.deb && \
   if [ ! -e '/bin/systemctl' ]; then ln -s /bin/echo /bin/systemctl; fi && \
-  dpkg -i --force-depends latest.deb && \
+  dpkg -i --force-depends --skip-systemd-native latest.deb || true && \
   rm latest.deb && \
   apt-get autoremove -y && \
   apt install ocl-icd-opencl-dev -y
@@ -30,5 +31,3 @@ CMD	["/usr/bin/FAHClient", \
 	"--gpu=true", \
 	# "--run-as", "fahclient", \
 	"--pid-file=/var/run/fahclient.pid"]
-
-# CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
