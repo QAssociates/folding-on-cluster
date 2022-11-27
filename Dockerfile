@@ -12,8 +12,7 @@ ADD config.xml /usr/share/doc/fahclient/sample-config.xml
 
 # Download/Install latest FAH client
 # See here for latest - https://foldingathome.org/alternative-downloads/
-RUN wget https://download.foldingathome.org/releases/beta/fah-client/debian-stable-64bit/release/latest.deb
-&& \
+RUN wget https://download.foldingathome.org/releases/beta/fah-client/debian-stable-64bit/release/latest.deb && \
   dpkg -i --force-depends latest.deb && \
   rm latest.deb && \
   apt-get autoremove -y && \
