@@ -15,9 +15,11 @@ ADD config.xml /usr/share/doc/fahclient/sample-config.xml
 
 # Download/Install latest FAH client
 # See here for latest - https://foldingathome.org/alternative-downloads/
-RUN wget https://download.foldingathome.org/releases/beta/fah-client/debian-stable-64bit/release/latest.deb && \
-  dpkg -i latest.deb && \
-  rm latest.deb && \
+RUN mkdir fah-client && cd fah-client && \ 
+wget https://download.foldingathome.org/releases/beta/fah-client/debian-stable-64bit/release/latest.deb && \
+  dpkg-deb --extract latest.deb . && \
+  cp usr/bin/fah-client /usr/bin/fah-client && \
+  cd .. && rm -rf fah-client && \
   apt-get autoremove -y && \
   apt install ocl-icd-opencl-dev -y
 
@@ -26,9 +28,9 @@ RUN wget https://download.foldingathome.org/releases/beta/fah-client/debian-stab
 ADD config.xml /etc/fahclient/config.xml
 
 WORKDIR /var/lib/fahclient
-CMD	["/usr/bin/FAHClient", \
+CMD	["/usr/bin/fah-client", \
 	"--config", "/etc/fahclient/config.xml", \
 	"--config-rotate=false", \
-	"--gpu=true", \
+	"--gpu=false", \
 	# "--run-as", "fahclient", \
 	"--pid-file=/var/run/fahclient.pid"]
