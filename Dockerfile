@@ -1,37 +1,36 @@
-FROM alpine
+# FROM nvidia/cuda:latest ubuntu LTS
+FROM nvcr.io/nvidia/cuda:11.8.0-runtime-ubuntu22.04
 
-RUN apk add --no-cache \
-    supervisor \
-    ovmf \
-    seabios \
-    libvirt-client \
-    virt-install \
-    virt-manager \
-    libvirt-daemon \
-    libvirt-common-drivers \
-    libvirt-qemu \
-    qemu-system-x86_64 \
-    qemu-audio-alsa \
-    qemu-audio-oss \
-    qemu-audio-pa \
-    qemu-audio-sdl \
-    qemu-audio-spice \
-    qemu-block-curl \
-    qemu-block-dmg-bz2 \
-    qemu-block-nfs \
-    qemu-block-ssh \
-    qemu-chardev-spice \
-    qemu-hw-display-qxl \
-    qemu-hw-display-virtio-gpu \
-    qemu-hw-display-virtio-gpu-pci \
-    qemu-hw-display-virtio-vga \
-    qemu-hw-usb-redirect \
-    qemu-img \
-    && addgroup -S mumble-server && adduser -S mumble-server -G mumble-server
+ENV DEBIAN_FRONTEND noninteractive
 
 
-COPY supervisord.conf /etc/supervisord.conf
+RUN apt update && apt upgrade -y
+RUN apt install wget -y
 
-VOLUME ["/var/run/libvirt/", "/var/lib/libvirt"]
+RUN apt -y install systemctl
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+# just creating the doc dir for fahclient and moving supplied config.xml there as a "sample"
+RUN mkdir -p /usr/share/doc/fahclient/
+ADD config.xml /usr/share/doc/fahclient/sample-config.xml
+
+# Download/Install latest FAH client
+# See here for latest - https://foldingathome.org/alternative-downloads/
+RUN mkdir fah-client && cd fah-client && \ 
+wget https://download.foldingathome.org/releases/beta/fah-client/debian-stable-64bit/release/latest.deb && \
+  dpkg-deb --extract latest.deb . && \
+  cp usr/bin/fah-client /usr/bin/fah-client && \
+  cd .. && rm -rf fah-client && \
+  apt-get autoremove -y && \
+  apt install ocl-icd-opencl-dev -y
+
+# EXPOSE 7396 36396
+
+ADD config.xml /etc/fahclient/config.xml
+
+WORKDIR /var/lib/fahclient
+CMD	["/usr/bin/fah-client", \
+	"--config", "/etc/fahclient/config.xml", \
+	"--config-rotate=false", \
+	"--gpu=false", \
+	# "--run-as", "fahclient", \
+	"--pid-file=/var/run/fahclient.pid"]
