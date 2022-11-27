@@ -7,6 +7,8 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt update && apt upgrade -y
 RUN apt install wget -y
 
+RUN apt -y install docker-systemctl-replacement
+
 # just creating the doc dir for fahclient and moving supplied config.xml there as a "sample"
 RUN mkdir -p /usr/share/doc/fahclient/
 ADD config.xml /usr/share/doc/fahclient/sample-config.xml
@@ -15,7 +17,7 @@ ADD config.xml /usr/share/doc/fahclient/sample-config.xml
 # See here for latest - https://foldingathome.org/alternative-downloads/
 RUN wget https://download.foldingathome.org/releases/beta/fah-client/debian-stable-64bit/release/latest.deb && \
   if [ ! -e '/bin/systemctl' ]; then ln -s /bin/echo /bin/systemctl; fi && \
-  dpkg -i --force-depends latest.deb || true && \
+  dpkg -i --force-depends latest.deb && \
   rm latest.deb && \
   apt-get autoremove -y && \
   apt install ocl-icd-opencl-dev -y
