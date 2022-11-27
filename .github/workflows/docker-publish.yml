@@ -18,7 +18,7 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME: libvirtd
+  IMAGE_NAME: folding-on-cluster
 
 jobs:
   # Run tests.
