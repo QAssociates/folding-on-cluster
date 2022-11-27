@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt update && apt upgrade -y
 RUN apt install wget -y
 
-RUN apt -y install docker-systemctl-replacement
+RUN apt -y install systemctl
 
 # just creating the doc dir for fahclient and moving supplied config.xml there as a "sample"
 RUN mkdir -p /usr/share/doc/fahclient/
