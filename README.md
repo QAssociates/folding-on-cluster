@@ -7,13 +7,13 @@ There is a GitHub action setup so this image is __updated every week__.
 
 # Install
 ## ONLY CPU 
-```kubectl apply -f https://raw.githubusercontent.com/qassociates/folding-on-cluster/main/folding-cpu.yaml```  
+```kubectl apply -f https://raw.githubusercontent.com/qassociates/folding-on-cluster/main/deploy/folding-cpu.yaml```  
 
 ## ONLY GPU (Nvidia)
-```kubectl apply -f https://raw.githubusercontent.com/qassociates/folding-on-cluster/main/folding-gpu.yaml```
+```kubectl apply -f https://raw.githubusercontent.com/qassociates/folding-on-cluster/main/deploy/folding-gpu.yaml```
 
 ## CPU & GPU (Nvidia)
-```kubectl apply -f https://raw.githubusercontent.com/qassociates/folding-on-cluster/main/folding-gpu-cpu.yaml```  
+```kubectl apply -f https://raw.githubusercontent.com/qassociates/folding-on-cluster/main/deploy/folding-gpu-cpu.yaml```  
 
 
 
