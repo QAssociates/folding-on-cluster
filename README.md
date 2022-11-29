@@ -6,15 +6,11 @@ There is a GitHub action setup so this image is __updated every week__.
 
 
 # Install
-## ONLY CPU 
+## CPU 
 ```kubectl apply -f https://raw.githubusercontent.com/qassociates/folding-on-cluster/main/deploy/folding-cpu.yaml```  
 
-## ONLY GPU (Nvidia)
+## GPU (Nvidia)
 ```kubectl apply -f https://raw.githubusercontent.com/qassociates/folding-on-cluster/main/deploy/folding-gpu.yaml```
-
-## CPU & GPU (Nvidia)
-```kubectl apply -f https://raw.githubusercontent.com/qassociates/folding-on-cluster/main/deploy/folding-gpu-cpu.yaml```  
-
 
 
 ### Tested GPU's:
@@ -33,7 +29,7 @@ There is a GitHub action setup so this image is __updated every week__.
 
 You can also run this as a DaemonSet (runs one replica per node) with:  
 
-```kubectl apply -f https://raw.githubusercontent.com/qassociates/folding-on-cluster/main/folding-daemonset.yaml```    
+```kubectl apply -f https://raw.githubusercontent.com/qassociates/folding-on-cluster/main/deploy/folding-daemonset.yaml```    
 
 There is a `tolerations` section in this .yaml you can uncomment in order to also run FAHClient on master nodes if you wish.  
 
