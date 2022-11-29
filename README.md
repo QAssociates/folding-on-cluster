@@ -51,6 +51,7 @@ You *can* override/mount as a configMap in Kubernetes (you can see the scaffoldi
 
 ## Configuration options
 
+```
 Here is a list of all the config options available, with defaults in <>:
 
 Configuration options:
@@ -498,7 +499,7 @@ Work Unit Control:
   stall-timeout <integer=1800>
     Minimum time, in seconds, since last frame before a WU can be considered
     stalled.
-
+```
 _docker run_:
 
 ```sh
