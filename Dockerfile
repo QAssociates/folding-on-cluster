@@ -29,6 +29,4 @@ ADD config.xml /etc/fahclient/config.xml
 
 WORKDIR /var/lib/fahclient
 CMD	["/usr/bin/fah-client", \
-	"--config", "/etc/fahclient/config.xml", \
-	# "--run-as", "fahclient", \
-	"--pid-file=/var/run/fahclient.pid"]
+	"--config", "/etc/fahclient/config.xml"]
