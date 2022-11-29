@@ -48,29 +48,29 @@ spec:
             requests:
               cpu: 400m
               memory: 256Mi
-           volumeMounts: # Mount config.xml file
-             - name: data
-               mountPath: /etc/fahclient
-       initContainers:
-         - name: copy-ro-scripts
-           image: busybox
-           command:
-             [
-               "sh",
-               "-c",
-               "cp /etc/fahclient-config/config.xml /etc/fahclient/config.xml",
-             ]
-           volumeMounts:
-             - name: fah-cpu-config
-               mountPath: /etc/fahclient-config
-             - name: data
-               mountPath: /etc/fahclient
-       volumes:
-         - name: data
-           emptyDir: {}
-         - name: fah-cpu-config
-           configMap:
-             name: foldingathome-config
+          volumeMounts: # Mount config.xml file
+            - name: data
+              mountPath: /etc/fahclient
+      initContainers:
+        - name: copy-ro-scripts
+          image: busybox
+          command:
+            [
+              "sh",
+              "-c",
+              "cp /etc/fahclient-config/config.xml /etc/fahclient/config.xml",
+            ]
+          volumeMounts:
+            - name: fah-cpu-config
+              mountPath: /etc/fahclient-config
+            - name: data
+              mountPath: /etc/fahclient
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: fah-cpu-config
+          configMap:
+            name: foldingathome-config
       # priorityClassName: low-priority-class
 ---
 apiVersion: v1
@@ -88,9 +88,9 @@ data:
       <max-packet-size v='big'/>
 
       <!-- User Information -->
-      <user value="I Forgot My Name"/>         <!-- Enter your user name here -->
+      <user value="Chris_Coates"/>         <!-- Enter your user name here -->
       <team value="265019"/>         <!-- Your team number -->
-      <passkey value=""/>      <!-- 32 hexadecimal characters - Get your key at https://apps.foldingathome.org/getpasskey -->
+      <passkey value="de314fcaa4933380de314fcaa4933380"/>      <!-- 32 hexadecimal characters - Get your key at https://apps.foldingathome.org/getpasskey -->
 
       <power value="full"/>     <!-- Throttling this at K8s level -->
       <gpu value="false"/>      <!-- If true, attempt to autoconfigure GPUs -->
@@ -100,11 +100,11 @@ data:
         No folding slot configuration is strictly necessary,  The client will
         automaticlaly choose a general good configuration for you.  However, here
         are some examples where you can do more customization:
-      
+
           <slot id="0" type="CPU"/>
 
         or
-        
+
           <slot id="0" type="CPU"/>
           <slot id="1" type="GPU"/>
 
@@ -120,7 +120,7 @@ data:
           <slot id='2' type='GPU'>
             <pci-bus v='101'/>
             <pci-slot v='0'/>
-          </slot>        
+          </slot>
         All slots in a configuration MUST have unique ids.
       -->
       <slot id='0' type='CPU'>
@@ -130,6 +130,6 @@ data:
       <slot id='1' type='CPU'>
         <cpus v='4'/>
         <paused v='false'/>
-      </slot>      
+      </slot>
     </config>
 ---
